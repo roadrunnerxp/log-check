@@ -2,6 +2,8 @@
 
 日次チェック用コマンド
 
+## 概要
+
 ### DFコマンド
 
 `df -h`
@@ -9,8 +11,6 @@
 ### ログの抽出
 
 `grep -h "$GrepDays" $FileName |grep -vf /root/bin/ignorelist/messages.lst |tac`
-
-
 
 + 2日間or7日間のログを抽出（オプションで選択）
 
@@ -32,13 +32,21 @@ done
 
 + 逆順に出力（直近のログが上に来る）
 
+## 準備
+
 ### /root/bin/ディレクトリに配置。
 
+```
+# cd /root/bin
+# git clone git@github.com:roadrunner/log-check.git
+```
 + /root/binディレクトリにパスを通しておく
 
 ### /root/bin/ignorelistディレクトリが必要
 
 + log-check -c で確認・作成可
+
+## 使用方法
 
 ```
 # log-check -h
