@@ -1,0 +1,155 @@
+#!/bin/bash
+
+#Description:
+#   日次チェック用コマンド
+#   ・DFコマンド
+#   ・ログの抽出
+#     ・1世代前のログファイルもチェック対象に含める
+#     ・IgnoreListにある単語を含む行は無視
+#     ・2日間or7日間のログを抽出（オプションで選択）
+#   ・/root/bin/ディレクトリに配置。
+#     （/root/binディレクトリにパスを通しておく）
+#   ・/root/bin/ignorelistディレクトリが必要
+#     （log-check -c で確認・作成可）
+
+#使用法
+function usage() {
+cat <<_EOT_
+
+Usage:
+  ${0##*/} [-d][-w][-h]
+Options：
+  -d           当日および前日分のログから抽出します。
+  -w           当日を含む7日間分のログから抽出します。
+  -c           除外リストディレクトリのチェック・作成
+  -h           ヘルプ・使用方法
+
+_EOT_
+exit 1
+}
+
+#除外リストのチェック・作成 処理
+function check_file() {
+echo
+echo "Checking Ignore List for log-check Command..."
+echo
+if [ -d /root/bin/ignorelist ]; then
+  echo "/root/bin/ignorelist is exist."
+  if [ -f /root/bin/ignorelist/messages.lst ]; then
+      echo "messages.lst is exist."
+  else
+      echo "messages.lstが存在しません。空ファイルを作成します。"
+      touch /root/bin/ignorelist/messages.lst
+  fi
+  if [ -f /root/bin/ignorelist/secure.lst ]; then
+      echo "secure.lst is exist."
+  else
+      echo "secure.lstが存在しません。空ファイルを作成します。"
+      touch /root/bin/ignorelist/secure.lst
+  fi
+else
+  echo "除外リストディレクトリがありません。作成しますか？（y/n)"
+  read ANSWER
+  case $ANSWER in
+    "" | "Y" | "y" | "yes" | "Yes" | "YES" )
+      mkdir -p /root/bin/ignorelist
+      touch /root/bin/ignorelist/messages.lst
+      touch /root/bin/ignorelist/secure.lst
+      echo "除外リストディレクトリを作成しました。"
+      exit 1;;
+    * )
+      echo "log-searchコマンドには除外リストディレクトリが必要です。"
+      exit 1 ;;
+  esac
+fi
+echo
+echo "除外リストディレクトリが存在します。log-searchコマンドが利用可能です。"
+echo
+exit 1
+}
+
+#初期設定など
+LANG=en_US.UTF-8
+Line='========================='
+
+#オプション判定
+while getopts :dwch OPT
+do
+  case $OPT in
+    "d" ) FLG_D="TRUE" ;;
+    "w" ) FLG_W="TRUE" ;;
+    "c" ) check_file;;
+    "h" ) usage ;;
+     \? ) echo "ERROR!!:オプションが違います。"
+          usage ;;
+  esac
+  LOOPCOUNT=$(( LOOPCOUNT + 1 ))
+done
+
+  # オプションが指定されていないときは-dが省略されたと見なす
+  if [[ $LOOPCOUNT -eq 0 ]];then
+    if [[ $# -eq 0 ]] ;then
+      FLG_D="TRUE"
+    # オプションなしで引数が指定されていたらエラー
+    else
+      echo "引数が不正です。"
+      usage
+    fi
+  else
+    # オプションが２つ以上の場合はエラー
+    if [[ $LOOPCOUNT -ge 2 ]];then
+      echo "オプションが不正です。"
+      usage
+    fi
+  fi
+
+  # dオプションの設定
+  if [ "$FLG_D" = "TRUE" ]; then
+    CheckDay=$(date)
+    StartDay=$(date -d '1days ago')
+    GrepDays=$(date "+%b %e")"\|"$(date -d "$CheckDay 1day ago")
+  fi
+
+  # wオプション設定
+  if [ "$FLG_W" = "TRUE" ]; then
+    CheckDay=$(date)
+    StartDay=$(date -d '6days ago')
+    GrepDays=$(date "+%b %e")
+    while [ "$CheckDay" != "$StartDay" ]; do
+        GrepDays=$GrepDays"\|"
+        CheckDay=$(date -d "$CheckDay 1day ago")
+        GrepDays=$GrepDays$(date -d "$CheckDay" "+%b %e")
+    done
+  fi
+
+
+#ここからメイン処理
+echo
+
+#ディスク容量チェック
+echo $Line
+echo '# df -h'
+df -h
+echo
+
+#ログチェック(messages)
+echo $Line
+echo '# grep'
+FileName=$(ls -t1 /var/log/messages*|head -2)
+echo -e "$FileName"
+echo "抽出期間："$(date +%F -d "$StartDay")"～"$(date +%F)
+echo
+grep -h "$GrepDays" $FileName |grep -vf /root/bin/ignorelist/messages.lst |tac
+echo
+
+#ログチェック(secure)
+echo $Line
+echo '# grep'
+FileName=$(ls -t1 /var/log/secure*|head -2)
+echo -e "$FileName"
+echo "抽出期間："$(date +%F -d "$StartDay")"～"$(date +%F)
+echo
+grep -h "$GrepDays" $FileName |grep -vf /root/bin/ignorelist/secure.lst |tac
+echo
+echo $Line
+echo
