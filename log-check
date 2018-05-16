@@ -1,34 +1,34 @@
 #!/bin/bash
 
 #Description:
-#   “úŽŸƒ`ƒFƒbƒN—pƒRƒ}ƒ“ƒh
-#   EDFƒRƒ}ƒ“ƒh
-#   EƒƒO‚Ì’Šo
-#     E1¢‘ã‘O‚ÌƒƒOƒtƒ@ƒCƒ‹‚àƒ`ƒFƒbƒN‘ÎÛ‚ÉŠÜ‚ß‚é
-#     EIgnoreList‚É‚ ‚é’PŒê‚ðŠÜ‚Þs‚Í–³Ž‹
-#     E2“úŠÔor7“úŠÔ‚ÌƒƒO‚ð’ŠoiƒIƒvƒVƒ‡ƒ“‚Å‘I‘ðj
-#   E/root/bin/ƒfƒBƒŒƒNƒgƒŠ‚É”z’uB
-#     i/root/binƒfƒBƒŒƒNƒgƒŠ‚ÉƒpƒX‚ð’Ê‚µ‚Ä‚¨‚­j
-#   E/root/bin/ignorelistƒfƒBƒŒƒNƒgƒŠ‚ª•K—v
-#     ilog-check -c ‚ÅŠm”FEì¬‰Âj
+#   æ—¥æ¬¡ãƒã‚§ãƒƒã‚¯ç”¨ã‚³ãƒžãƒ³ãƒ‰
+#   ãƒ»DFã‚³ãƒžãƒ³ãƒ‰
+#   ãƒ»ãƒ­ã‚°ã®æŠ½å‡º
+#     ãƒ»1ä¸–ä»£å‰ã®ãƒ­ã‚°ãƒ•ã‚¡ã‚¤ãƒ«ã‚‚ãƒã‚§ãƒƒã‚¯å¯¾è±¡ã«å«ã‚ã‚‹
+#     ãƒ»IgnoreListã«ã‚ã‚‹å˜èªžã‚’å«ã‚€è¡Œã¯ç„¡è¦–
+#     ãƒ»2æ—¥é–“or7æ—¥é–“ã®ãƒ­ã‚°ã‚’æŠ½å‡ºï¼ˆã‚ªãƒ—ã‚·ãƒ§ãƒ³ã§é¸æŠžï¼‰
+#   ãƒ»/root/bin/ãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«é…ç½®ã€‚
+#     ï¼ˆ/root/binãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã«ãƒ‘ã‚¹ã‚’é€šã—ã¦ãŠãï¼‰
+#   ãƒ»/root/bin/ignorelistãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå¿…è¦
+#     ï¼ˆlog-check -c ã§ç¢ºèªãƒ»ä½œæˆå¯ï¼‰
 
-#Žg—p–@
+#ä½¿ç”¨æ³•
 function usage() {
 cat <<_EOT_
 
 Usage:
   ${0##*/} [-d][-w][-h]
-OptionsF
-  -d           “–“ú‚¨‚æ‚Ñ‘O“ú•ª‚ÌƒƒO‚©‚ç’Šo‚µ‚Ü‚·B
-  -w           “–“ú‚ðŠÜ‚Þ7“úŠÔ•ª‚ÌƒƒO‚©‚ç’Šo‚µ‚Ü‚·B
-  -c           œŠOƒŠƒXƒgƒfƒBƒŒƒNƒgƒŠ‚Ìƒ`ƒFƒbƒNEì¬
-  -h           ƒwƒ‹ƒvEŽg—p•û–@
+Optionsï¼š
+  -d           å½“æ—¥ãŠã‚ˆã³å‰æ—¥åˆ†ã®ãƒ­ã‚°ã‹ã‚‰æŠ½å‡ºã—ã¾ã™ã€‚
+  -w           å½“æ—¥ã‚’å«ã‚€7æ—¥é–“åˆ†ã®ãƒ­ã‚°ã‹ã‚‰æŠ½å‡ºã—ã¾ã™ã€‚
+  -c           é™¤å¤–ãƒªã‚¹ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã®ãƒã‚§ãƒƒã‚¯ãƒ»ä½œæˆ
+  -h           ãƒ˜ãƒ«ãƒ—ãƒ»ä½¿ç”¨æ–¹æ³•
 
 _EOT_
 exit 1
 }
 
-#œŠOƒŠƒXƒg‚Ìƒ`ƒFƒbƒNEì¬ ˆ—
+#é™¤å¤–ãƒªã‚¹ãƒˆã®ãƒã‚§ãƒƒã‚¯ãƒ»ä½œæˆ å‡¦ç†
 function check_file() {
 echo
 echo "Checking Ignore List for log-check Command..."
@@ -38,41 +38,41 @@ if [ -d /root/bin/ignorelist ]; then
   if [ -f /root/bin/ignorelist/messages.lst ]; then
       echo "messages.lst is exist."
   else
-      echo "messages.lst‚ª‘¶Ý‚µ‚Ü‚¹‚ñB‹óƒtƒ@ƒCƒ‹‚ðì¬‚µ‚Ü‚·B"
+      echo "messages.lstãŒå­˜åœ¨ã—ã¾ã›ã‚“ã€‚ç©ºãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚"
       touch /root/bin/ignorelist/messages.lst
   fi
   if [ -f /root/bin/ignorelist/secure.lst ]; then
       echo "secure.lst is exist."
   else
-      echo "secure.lst‚ª‘¶Ý‚µ‚Ü‚¹‚ñB‹óƒtƒ@ƒCƒ‹‚ðì¬‚µ‚Ü‚·B"
+      echo "secure.lstãŒå­˜åœ¨ã—ã¾ã›ã‚“ã€‚ç©ºãƒ•ã‚¡ã‚¤ãƒ«ã‚’ä½œæˆã—ã¾ã™ã€‚"
       touch /root/bin/ignorelist/secure.lst
   fi
 else
-  echo "œŠOƒŠƒXƒgƒfƒBƒŒƒNƒgƒŠ‚ª‚ ‚è‚Ü‚¹‚ñBì¬‚µ‚Ü‚·‚©Hiy/n)"
+  echo "é™¤å¤–ãƒªã‚¹ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒã‚ã‚Šã¾ã›ã‚“ã€‚ä½œæˆã—ã¾ã™ã‹ï¼Ÿï¼ˆy/n)"
   read ANSWER
   case $ANSWER in
     "" | "Y" | "y" | "yes" | "Yes" | "YES" )
       mkdir -p /root/bin/ignorelist
       touch /root/bin/ignorelist/messages.lst
       touch /root/bin/ignorelist/secure.lst
-      echo "œŠOƒŠƒXƒgƒfƒBƒŒƒNƒgƒŠ‚ðì¬‚µ‚Ü‚µ‚½B"
+      echo "é™¤å¤–ãƒªã‚¹ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªã‚’ä½œæˆã—ã¾ã—ãŸã€‚"
       exit 1;;
     * )
-      echo "log-searchƒRƒ}ƒ“ƒh‚É‚ÍœŠOƒŠƒXƒgƒfƒBƒŒƒNƒgƒŠ‚ª•K—v‚Å‚·B"
+      echo "log-searchã‚³ãƒžãƒ³ãƒ‰ã«ã¯é™¤å¤–ãƒªã‚¹ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå¿…è¦ã§ã™ã€‚"
       exit 1 ;;
   esac
 fi
 echo
-echo "œŠOƒŠƒXƒgƒfƒBƒŒƒNƒgƒŠ‚ª‘¶Ý‚µ‚Ü‚·Blog-searchƒRƒ}ƒ“ƒh‚ª—˜—p‰Â”\‚Å‚·B"
+echo "é™¤å¤–ãƒªã‚¹ãƒˆãƒ‡ã‚£ãƒ¬ã‚¯ãƒˆãƒªãŒå­˜åœ¨ã—ã¾ã™ã€‚log-searchã‚³ãƒžãƒ³ãƒ‰ãŒåˆ©ç”¨å¯èƒ½ã§ã™ã€‚"
 echo
 exit 1
 }
 
-#‰ŠúÝ’è‚È‚Ç
+#åˆæœŸè¨­å®šãªã©
 LANG=en_US.UTF-8
 Line='========================='
 
-#ƒIƒvƒVƒ‡ƒ“”»’è
+#ã‚ªãƒ—ã‚·ãƒ§ãƒ³åˆ¤å®š
 while getopts :dwch OPT
 do
   case $OPT in
@@ -80,37 +80,37 @@ do
     "w" ) FLG_W="TRUE" ;;
     "c" ) check_file;;
     "h" ) usage ;;
-     \? ) echo "ERROR!!:ƒIƒvƒVƒ‡ƒ“‚ªˆá‚¢‚Ü‚·B"
+     \? ) echo "ERROR!!:ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãŒé•ã„ã¾ã™ã€‚"
           usage ;;
   esac
   LOOPCOUNT=$(( LOOPCOUNT + 1 ))
 done
 
-  # ƒIƒvƒVƒ‡ƒ“‚ªŽw’è‚³‚ê‚Ä‚¢‚È‚¢‚Æ‚«‚Í-d‚ªÈ—ª‚³‚ê‚½‚ÆŒ©‚È‚·
+  # ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãŒæŒ‡å®šã•ã‚Œã¦ã„ãªã„ã¨ãã¯-dãŒçœç•¥ã•ã‚ŒãŸã¨è¦‹ãªã™
   if [[ $LOOPCOUNT -eq 0 ]];then
     if [[ $# -eq 0 ]] ;then
       FLG_D="TRUE"
-    # ƒIƒvƒVƒ‡ƒ“‚È‚µ‚Åˆø”‚ªŽw’è‚³‚ê‚Ä‚¢‚½‚çƒGƒ‰[
+    # ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãªã—ã§å¼•æ•°ãŒæŒ‡å®šã•ã‚Œã¦ã„ãŸã‚‰ã‚¨ãƒ©ãƒ¼
     else
-      echo "ˆø”‚ª•s³‚Å‚·B"
+      echo "å¼•æ•°ãŒä¸æ­£ã§ã™ã€‚"
       usage
     fi
   else
-    # ƒIƒvƒVƒ‡ƒ“‚ª‚Q‚ÂˆÈã‚Ìê‡‚ÍƒGƒ‰[
+    # ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãŒï¼’ã¤ä»¥ä¸Šã®å ´åˆã¯ã‚¨ãƒ©ãƒ¼
     if [[ $LOOPCOUNT -ge 2 ]];then
-      echo "ƒIƒvƒVƒ‡ƒ“‚ª•s³‚Å‚·B"
+      echo "ã‚ªãƒ—ã‚·ãƒ§ãƒ³ãŒä¸æ­£ã§ã™ã€‚"
       usage
     fi
   fi
 
-  # dƒIƒvƒVƒ‡ƒ“‚ÌÝ’è
+  # dã‚ªãƒ—ã‚·ãƒ§ãƒ³ã®è¨­å®š
   if [ "$FLG_D" = "TRUE" ]; then
     CheckDay=$(date)
     StartDay=$(date -d '1days ago')
     GrepDays=$(date "+%b %e")"\|"$(date -d "$CheckDay 1day ago")
   fi
 
-  # wƒIƒvƒVƒ‡ƒ“Ý’è
+  # wã‚ªãƒ—ã‚·ãƒ§ãƒ³è¨­å®š
   if [ "$FLG_W" = "TRUE" ]; then
     CheckDay=$(date)
     StartDay=$(date -d '6days ago')
@@ -123,31 +123,31 @@ done
   fi
 
 
-#‚±‚±‚©‚çƒƒCƒ“ˆ—
+#ã“ã“ã‹ã‚‰ãƒ¡ã‚¤ãƒ³å‡¦ç†
 echo
 
-#ƒfƒBƒXƒN—e—Êƒ`ƒFƒbƒN
+#ãƒ‡ã‚£ã‚¹ã‚¯å®¹é‡ãƒã‚§ãƒƒã‚¯
 echo $Line
 echo '# df -h'
 df -h
 echo
 
-#ƒƒOƒ`ƒFƒbƒN(messages)
+#ãƒ­ã‚°ãƒã‚§ãƒƒã‚¯(messages)
 echo $Line
 echo '# grep'
 FileName=$(ls -t1 /var/log/messages*|head -2)
 echo -e "$FileName"
-echo "’ŠoŠúŠÔF"$(date +%F -d "$StartDay")"`"$(date +%F)
+echo "æŠ½å‡ºæœŸé–“ï¼š"$(date +%F -d "$StartDay")"ï½ž"$(date +%F)
 echo
 grep -h "$GrepDays" $FileName |grep -vf /root/bin/ignorelist/messages.lst |tac
 echo
 
-#ƒƒOƒ`ƒFƒbƒN(secure)
+#ãƒ­ã‚°ãƒã‚§ãƒƒã‚¯(secure)
 echo $Line
 echo '# grep'
 FileName=$(ls -t1 /var/log/secure*|head -2)
 echo -e "$FileName"
-echo "’ŠoŠúŠÔF"$(date +%F -d "$StartDay")"`"$(date +%F)
+echo "æŠ½å‡ºæœŸé–“ï¼š"$(date +%F -d "$StartDay")"ï½ž"$(date +%F)
 echo
 grep -h "$GrepDays" $FileName |grep -vf /root/bin/ignorelist/secure.lst |tac
 echo

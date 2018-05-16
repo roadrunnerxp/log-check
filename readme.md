@@ -38,7 +38,8 @@ done
 
 ```
 # cd /root/bin
-# git clone git@github.com:roadrunner/log-check.git
+# wget https://github.com/roadrunnerxp/log-check/raw/master/log-check
+# chmod 700 log-check
 ```
 + /root/binディレクトリにパスを通しておく
 
