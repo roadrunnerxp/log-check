@@ -135,7 +135,7 @@ echo
 #ログチェック(messages)
 echo $Line
 echo '# grep'
-FileName=$(ls -t1 /var/log/messages*|head -2)
+FileName=$(ls -t1 /var/log/messages*|head -2|tac)
 echo -e "$FileName"
 echo "抽出期間："$(date +%F -d "$StartDay")"～"$(date +%F)
 echo
@@ -145,7 +145,7 @@ echo
 #ログチェック(secure)
 echo $Line
 echo '# grep'
-FileName=$(ls -t1 /var/log/secure*|head -2)
+FileName=$(ls -t1 /var/log/secure*|head -2|tac)
 echo -e "$FileName"
 echo "抽出期間："$(date +%F -d "$StartDay")"～"$(date +%F)
 echo
