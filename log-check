@@ -107,7 +107,7 @@ done
   if [ "$FLG_D" = "TRUE" ]; then
     CheckDay=$(date)
     StartDay=$(date -d '1days ago')
-    GrepDays=$(date "+%b %e")"\|"$(date -d "$CheckDay 1day ago")
+    GrepDays=$(date "+%b %e")"\|"$(date -d "$Startday" "+%b %e")
   fi
 
   # wオプション設定
